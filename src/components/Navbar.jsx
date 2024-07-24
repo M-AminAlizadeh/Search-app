@@ -1,7 +1,8 @@
 import brandIcon from '../assets/search-icon.png'
 import { Link } from 'react-router-dom'
+import Search from './Search'
 
-function Navbar({darkTheme, setDarkTheme}) {
+function Navbar({darkTheme, setDarkTheme, setQuery}) {
   const handleTheme = () => setDarkTheme(!darkTheme)
 
   return (
@@ -13,6 +14,8 @@ function Navbar({darkTheme, setDarkTheme}) {
           <img width="40" src={brandIcon} alt="search"/>
         </div>
       </Link>
+      {/* Search bar */}
+      <Search setQuery={setQuery} />
       {/* Dark/light mode */}
       <button className='text-lg p-2 bg-black text-white rounded-full hover:shadow-lg dark:text-black dark:bg-white' onClick={handleTheme}>
         {darkTheme ? 'Light ☀️': 'Dark 🌒'}
