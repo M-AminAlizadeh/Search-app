@@ -8,13 +8,13 @@ function Navbar({darkTheme, setDarkTheme}) {
     <nav className="border-b p-5 flex flex-wrap justify-center items-center sm:justify-between">
       {/* Brand name link */}
       <Link to="/">
-        <div className="flex border justify-start items-center py-1 px-2 rounded bg-white">
+        <div className="flex justify-start items-center py-1 px-2 rounded bg-blue-600 text-white dark:text-black dark:bg-white">
           <h1 className="font-bold text">Brand Name</h1>
           <img width="40" src={brandIcon} alt="search"/>
         </div>
       </Link>
       {/* Dark/light mode */}
-      <button className='border text-lg p-2 rounded hover:shadow-lg' onClick={handleTheme}>
+      <button className='text-lg p-2 bg-black text-white rounded-full hover:shadow-lg dark:text-black dark:bg-white' onClick={handleTheme}>
         {darkTheme ? 'Light ☀️': 'Dark 🌒'}
       </button>
     </nav>
