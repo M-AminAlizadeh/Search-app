@@ -1,12 +1,15 @@
 import {
   createBrowserRouter
 } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import App from "./App";
+import Layout from "./Layout";
 
 export const routes = createBrowserRouter([
   {
     path: '/',
-    element: (<App/>) 
+    element: <Layout/> 
   },
+  {
+    path: '/search',
+    element: <Layout results={true}/>
+  }
 ]) 
