@@ -2,7 +2,7 @@ import brandIcon from '../assets/search-icon.png'
 import { Link } from 'react-router-dom'
 import Search from './Search'
 
-function Navbar({darkTheme, setDarkTheme, setQuery}) {
+function Navbar({ darkTheme, setDarkTheme, setQuery, isSubmit, setIsSubmit}) {
   const handleTheme = () => setDarkTheme(!darkTheme)
   const searchLinks = [
     {
@@ -34,7 +34,7 @@ function Navbar({darkTheme, setDarkTheme, setQuery}) {
           </div>
         </Link>
         {/* Search bar */}
-        <Search setQuery={setQuery} />
+        <Search setQuery={setQuery} isSubmit={isSubmit} setIsSubmit={setIsSubmit} />
         {/* Dark/light mode */}
         <button className='text-lg p-2 bg-black text-white rounded-full hover:shadow-lg dark:text-black dark:bg-white' onClick={handleTheme}>
           {darkTheme ? 'Light ☀️': 'Dark 🌒'}
@@ -44,7 +44,7 @@ function Navbar({darkTheme, setDarkTheme, setQuery}) {
       <ul className='border-b-2 p-3 bg-white dark:bg-slate-600 flex justify-start items-center gap-5'>
         {searchLinks.map(({label, to}) => {
           return (
-            <li>
+            <li key={label}>
               <Link to={to} className='p-2 border-blue-600 dark:text-white dark:hover:text-red-300 hover:text-blue-600 hover:border-b-2 font-bold'>{label}</Link>
             </li>
           );
