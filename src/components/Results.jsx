@@ -1,49 +1,46 @@
 import { useEffect, useState } from 'react';
+import Loading from './Loading';
 
-function Results({query, isSubmit}) {
-  const [results, setResults] = useState(null)
-  const [relatedTopics, setRelatedTopics] = useState(null)
-  const [abstract, setAbstract] = useState('')
-  const url = `http://api.duckduckgo.com/?q=${query}&format=json&atb=v414-1`;
+function Results({ query, isSubmit }) {
+  const apiKey = import.meta.env.VITE_APP_API_KEY
+  const searchEngineID = import.meta.env.VITE_SEARCH_ENGINE_ID
+  const URL = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchEngineID}&q=${query}`
+  const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  const getResults = async() => {
-    const response = await fetch(url);
-    const result  = await response.json();
-    console.log(result)
-    setResults(result.Results)
-    setRelatedTopics(result.RelatedTopics)
-    console.log(relatedTopics)
-    setAbstract(result.Abstract)
-    // setData(result.results)
-    return result
+  const getResults = async () => {
+    try {
+      setLoading(true)
+      const res = await fetch(URL)
+      const data = await res.json()
+      console.log(data)
+      setResults(data.items)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
   }
-  useEffect(()=>{
-    getResults()
+
+  useEffect(() => {
+    if (isSubmit) {
+      getResults()
+    }
   }, [isSubmit])
 
+  if(loading) return <Loading />
+
   return (
-    <div className='overflow-scroll border border-red-500'>
-      <p>{abstract}</p>
-      
-      {results && results.map(({FirstURL, Result, Text})=>{
-        return(
-          <div className='border-2 border-green-800'>
-            {/* <a href={FirstURL}>link</a> */}
+    <div className='p-5 h-[77vh] overflow-y-scroll border border-red-500'>
+      {results.map((result, index) => {
+        return (
+          <div key={index} className='mb-5'>
+            <a href={result.link} target='_blank' rel='noreferrer'>
+              <h5 className=' text-blue-500'>{result.title}</h5>
+            </a>
+            <p>{result.snippet}</p>
           </div>
         )
       })}
-      
-      {(relatedTopics && relatedTopics.map(({ FirstURL, Result, Text }) => {
-        return (
-          <div className='flex-col gap-3 border-2 border-pink-900'>
-            <h3>{Text}</h3>
-            <a href={FirstURL}>link</a>
-            <p>{Result}</p>
-          </div>
-        )
-      }))}
-      
-      <hr/>
     </div>
   );
 }
